@@ -11,4 +11,9 @@ input: cluster
 	# ... which will enable us to append / stream more data in if desired
 	tac builds.json | pachctl put-file data -c -f 
 
+collect:
+	./collect.rb
 
+local: collect
+	./filter.rb builds.json ./tmp
+	./analyze.rb ./tmp/setA.json ./tmp

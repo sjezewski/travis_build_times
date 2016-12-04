@@ -35,7 +35,6 @@ done = false
 
 last_build = nil
 f = File.open("builds.json", "w")
-f << "[\n" # for testing w IRB, later on will just want a stream of JSON
 count = 0
 
 
@@ -51,10 +50,7 @@ while !done
     builds = JSON.parse(resp)
     last_build = builds[-1]
 	break if builds.size == 0
-	puts "total builds: #{builds.size}"
-	builds.each {|b| f << "#{b.to_json},\n"}
+	builds.each {|b| f << "#{b.to_json}\n"}
 	count += 1
 end
 
-# Debug so its easy to parse in ruby
-f << "\n{}]"

@@ -25,8 +25,17 @@ def write_build(file, build)
    file << "#{build}\n"  
 end
 
+def load(buildsFile)
+    raw = File.read(buildsFile)
+    builds = []
+    raw.split("\n").each do |line|
+        builds << JSON(line)
+    end
+    builds
+end
+
 def filter(file, destFolder)
-    builds = JSON(File.read(file))
+    builds = load(file)
 
     rangeA = {:start => Date.new(2016, 3, 1), :end => Date.new(2016, 11, 17)}
     rangeB = {:start => Date.new(2016, 11, 19), :end => Date.new(2016, 12, 20)}
