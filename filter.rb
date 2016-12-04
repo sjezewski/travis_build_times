@@ -41,13 +41,13 @@ def filter(file, destFolder)
     rangeB = {:start => Date.new(2016, 11, 19), :end => Date.new(2016, 12, 20)}
 
     # Set A: old travis VM builds
-    setA = File.open(File.join(destFolder,"setA.json", "w"))
+    setA = File.open(File.join(destFolder,"setA.json"), "w")
     # Set A2: old travis VM builds on a friday
-    setA2 = File.open(File.join(destFolder,"setA2.json", "w"))
+    setA2 = File.open(File.join(destFolder,"setA2.json"), "w")
     # Set B: travis w upgraded VM builds
-    setB = File.open(File.join("setB.json", "w"))
+    setB = File.open(File.join("setB.json"), "w")
     # Set B2: travis w upgraded VM builds on friday
-    setB2 = File.open(File.join("setB2.json", "w"))
+    setB2 = File.open(File.join("setB2.json"), "w")
 
     builds.each do |build|
         next if build['duration'] == 0
