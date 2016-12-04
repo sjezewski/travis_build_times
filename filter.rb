@@ -22,7 +22,7 @@ def is_friday(raw_date)
 end
 
 def write_build(file, build)
-   file << "#{build}\n"  
+   file << "#{build.to_json}\n"  
 end
 
 def load(buildsFile)

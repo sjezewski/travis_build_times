@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
+require 'json'
+
 if ARGV.size != 2
     puts "Usage: ./analyze.rb some-builds.json outputDirectory"
     exit 1
 end
-
-
 
 # Given a set of data (via a single input file), computes the likelihood
 # that a build will timeout given its age. We'll do this for each minute
@@ -29,7 +29,7 @@ def classify(build)
     # 1 => failed
     # 0 => succeeded
     # null => errored
-    if build['finished'] == nil
+    if build['result'].nil?
         return :errored
     end
     # we don't care about success/failure since that's a function of the code being run
@@ -51,7 +51,7 @@ end
 def prob_A(frequencies)
     # We discount no-ops 
     total = frequencies[:errored].size + frequencies[:finished].size
-    frequencies[:errored].to_f/total
+    frequencies[:errored].size.to_f/total
 end
 
 def prob_Bx(builds, x)
@@ -93,4 +93,4 @@ end
 
 probabilities = prob_of_timeout_for_all_times(load(ARGV[0]))
 setName = File.split(ARGV[0]).last.split(".").first
-File.open(File.join(ARGV[1], "#{setName}-prob.txt"))  { |f| f << probabilities.join("\n") }
+File.open(File.join(ARGV[1], "#{setName}-prob.txt"), "w")  { |f| f << probabilities.join("\n") }
