@@ -3,12 +3,8 @@
     "name": "filter"
   },
   "transform": {
-    "cmd": [ "sh" ],
-    "stdin": [
-        "for fruit in apple orange banana; do",
-        "   grep $fruit /pfs/data/sales | awk '{print $2}' >>/pfs/out/$fruit",
-        "done"
-    ]
+    "image": "library/ruby:2.1-onbuild",
+    "cmd": [ "./filter.rb", "/pfs/data/builds.json", "/pfs/out"]
   },
   "parallelism_spec": {
     "strategy": "CONSTANT",
@@ -25,16 +21,11 @@
 }
 {
   "pipeline": {
-    "name": "sum"
+    "name": "analyze"
   },
   "transform": {
-    "cmd": [ "sh" ],
-    "stdin": [
-        "for fruit in apple orange banana; do",
-        "   { cat /pfs/prev/$fruit || echo 0; cat /pfs/filter/$fruit; } | awk '{s+=$1} END {print s}' > /pfs/out/$fruit",
-        "done"
-    ],
-    "overwrite": true
+    "image": "library/ruby:2.1-onbuild",
+    "cmd": [ "./analyze.rb", "/pfs/filter", "/pfs/out"]
   },
   "parallelism_spec": {
     "strategy": "CONSTANT",
@@ -45,10 +36,7 @@
       "repo": {
         "name": "filter"
       },
-      "method": {
-        "partition": "FILE",
-        "incremental": "DIFF"
-      }
+      "method": "reduce"
     }
   ]
 }
