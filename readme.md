@@ -12,6 +12,7 @@ The data was split into two sets:
 To run:
 
 ```
+bundle install
 make local
 ```
 
