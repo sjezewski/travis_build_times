@@ -21,4 +21,13 @@ analyze:
 	./analyze.rb ./tmp/setB.json ./tmp
 	./analyze.rb ./tmp/setB2.json ./tmp
 
-local: collect analyze
+graph:
+	./graph.rb tmp/base.dat control tmp/setA-prob.txt upgradedVM tmp/setB-prob.txt
+	gnuplot tmp/base.dat # generates tmp/base.png
+	./graph.rb tmp/all.dat control tmp/setA-prob.txt upgradedVM tmp/setB-prob.txt controlFridays tmp/setA2-prob.txt upgradedVMFridays tmp/setB2-prob.txt
+	gnuplot tmp/all.dat
+	./graph.rb tmp/fridays.dat controlFridays tmp/setA2-prob.txt upgradedVMFridays tmp/setB2-prob.txt
+	gnuplot tmp/fridays.dat 
+
+
+local: collect analyze graph

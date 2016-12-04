@@ -3,7 +3,7 @@
 require 'gnuplot'
 
 if ARGV.size < 2
-    puts "Usage: ./graph.rb outputFilepath prob1.txt (prob2.txt) ..."
+    puts "Usage: ./graph.rb outputFilepath seq1name prob1.txt (seq1name prob2.txt) ..."
     exit 1
 end
 
@@ -14,7 +14,17 @@ def valid_data(filename)
     data
 end 
 
-def plot(outputFilename, filenames)
+def parse_labels(args)
+    args.each_with_index.collect {|a, i| i % 2 == 0 ? a : nil }.compact
+end
+
+def parse_filenames(args)
+    args.each_with_index.collect {|a, i| i % 2 == 1 ? a : nil }.compact
+end
+
+def plot(outputFilename, args)
+    labels = parse_labels(args)
+    filenames = parse_filenames(args)
     dataSets = filenames.collect {|fn| valid_data(fn)}
     maxX = 0
     dataSets.each {|data| maxX = data.size if data.size > maxX}
@@ -29,13 +39,13 @@ File.open("#{outputFilename}.dat", "w") do |gp|
     plot.ylabel "Probability"
     plot.xlabel "Minute"
     
-    plots = dataSets.collect do |data|
+    plots = dataSets.each_with_index.collect do |data, i|
         x = (1..data.size).collect { |v| v.to_f }
         y = data
     
         Gnuplot::DataSet.new( [x, y] ) { |ds|
           ds.with = "linespoints"
-          ds.title = "Array data"
+          ds.title = labels[i]
         }
     end
     plot.data = plots
