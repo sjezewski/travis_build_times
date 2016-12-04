@@ -3,7 +3,7 @@
     "name": "filter"
   },
   "transform": {
-    "image": "library/ruby:2.1-onbuild",
+    "image": "travis_scripts",
     "cmd": [ "./filter.rb", "/pfs/data/builds.json", "/pfs/out"]
   },
   "parallelism_spec": {
@@ -24,7 +24,7 @@
     "name": "analyze"
   },
   "transform": {
-    "image": "library/ruby:2.1-onbuild",
+    "image": "travis_scripts",
     "cmd": [ "./analyze.rb", "/pfs/filter", "/pfs/out"]
   },
   "parallelism_spec": {
