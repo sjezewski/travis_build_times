@@ -14,6 +14,11 @@ input: cluster
 collect:
 	./collect.rb
 
-local: collect
+analyze:
 	./filter.rb builds.json ./tmp
 	./analyze.rb ./tmp/setA.json ./tmp
+	./analyze.rb ./tmp/setA2.json ./tmp
+	./analyze.rb ./tmp/setB.json ./tmp
+	./analyze.rb ./tmp/setB2.json ./tmp
+
+local: collect analyze
