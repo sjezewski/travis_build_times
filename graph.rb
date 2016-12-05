@@ -31,13 +31,14 @@ def plot(outputFilename, args)
     outputFilename = outputFilename.split(".").first
 File.open("#{outputFilename}.dat", "w") do |gp|
   Gnuplot::Plot.new( gp ) do |plot|
-    plot.terminal "png"
-    plot.output "#{outputFilename}.png" 
+    plot.terminal "png size 800,600"
+    plot.output "#{outputFilename}.png"
 
     plot.xrange "[0:#{maxX}]"
     plot.title  "Prob of timeout given current build time"
     plot.ylabel "Probability"
     plot.xlabel "Minute"
+    plot.key "left top"
     
     plots = dataSets.each_with_index.collect do |data, i|
         x = (1..data.size).collect { |v| v.to_f }

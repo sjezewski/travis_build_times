@@ -20,11 +20,13 @@ analyze:
 	./analyze.rb ./tmp/setA2.json ./tmp
 	./analyze.rb ./tmp/setB.json ./tmp
 	./analyze.rb ./tmp/setB2.json ./tmp
+	./analyze.rb ./tmp/setC.json ./tmp
+	./analyze.rb ./tmp/setC2.json ./tmp
 
 graph:
 	./graph.rb tmp/base.dat control tmp/setA-prob.txt upgradedVM tmp/setB-prob.txt
 	gnuplot tmp/base.dat # generates tmp/base.png
-	./graph.rb tmp/all.dat control tmp/setA-prob.txt upgradedVM tmp/setB-prob.txt controlFridays tmp/setA2-prob.txt upgradedVMFridays tmp/setB2-prob.txt
+	./graph.rb tmp/all.dat control tmp/setA-prob.txt upgradedVM tmp/setB-prob.txt controlFridays tmp/setA2-prob.txt upgradedVMFridays tmp/setB2-prob.txt sinceRefactor tmp/setC-prob.txt sinceRefactorFridays tmp/setC2-prob.txt
 	gnuplot tmp/all.dat
 	./graph.rb tmp/fridays.dat controlFridays tmp/setA2-prob.txt upgradedVMFridays tmp/setB2-prob.txt
 	gnuplot tmp/fridays.dat 
@@ -32,6 +34,11 @@ graph:
 	gnuplot tmp/control.dat
 	./graph.rb tmp/upgradedVM.dat allDays tmp/setB-prob.txt fridays tmp/setB2-prob.txt
 	gnuplot tmp/upgradedVM.dat
+	./graph.rb tmp/sinceRefactor.dat allDays tmp/setC-prob.txt fridays tmp/setC2-prob.txt
+	gnuplot tmp/sinceRefactor.dat
+	./graph.rb tmp/refactorVsUpgrade.dat refactor tmp/setC-prob.txt upgradedVM tmp/setB-prob.txt
+	gnuplot tmp/refactorVsUpgrade.dat
+
 
 
 local: collect analyze graph
