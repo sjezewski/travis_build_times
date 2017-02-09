@@ -45,29 +45,47 @@ def filter(file, destFolder)
     setA = File.open(File.join(destFolder,"setA.json"), "w")
     # Set A2: old travis VM builds on a friday
     setA2 = File.open(File.join(destFolder,"setA2.json"), "w")
+    # Set A2prime: old travis VM builds not on a friday
+    setA2prime = File.open(File.join(destFolder,"setA2prime.json"), "w")
     # Set B: travis w upgraded VM builds
     setB = File.open(File.join(destFolder, "setB.json"), "w")
     # Set B2: travis w upgraded VM builds on friday
     setB2 = File.open(File.join(destFolder, "setB2.json"), "w")
+    # Set B2prime: travis w upgraded VM builds not on friday
+    setB2prime = File.open(File.join(destFolder, "setB2prime.json"), "w")
     # Set C : old travis VM builds ... just since pfs refactor
     setC = File.open(File.join(destFolder,"setC.json"), "w")
     # Set C2: old travis VM builds on a friday (since pfs refactor)
     setC2 = File.open(File.join(destFolder,"setC2.json"), "w")
+    # Set C2prime: old travis VM builds on a friday (since pfs refactor)
+    setC2prime = File.open(File.join(destFolder,"setC2prime.json"), "w")
 
     builds.each do |build|
         next if build['duration'] == 0
         build_time = build['started_at']
         if is_in_range(build_time, rangeA)
             write_build(setA, build)
-            write_build(setA2, build) if is_friday(build_time)
+            if is_friday(build_time)
+                write_build(setA2, build) 
+            else
+                write_build(setA2prime, build) 
+            end
         end
         if is_in_range(build_time, rangeB)
             write_build(setB, build)
-            write_build(setB2, build) if is_friday(build_time)
+            if is_friday(build_time)
+                write_build(setB2, build) 
+            else
+                write_build(setB2prime, build) 
+            end
         end
         if is_in_range(build_time, rangeC)
             write_build(setC, build)
-            write_build(setC2, build) if is_friday(build_time)
+            if is_friday(build_time)
+                write_build(setC2, build) 
+            else
+                write_build(setC2prime, build) 
+            end 
         end
     end
 end
