@@ -38,7 +38,7 @@ def filter(file, destFolder)
     builds = load(file)
 
     rangeA = {:start => Date.new(2016, 3, 1), :end => Date.new(2016, 11, 17)}
-    rangeB = {:start => Date.new(2016, 11, 19), :end => Date.new(2016, 12, 20)}
+    rangeB = {:start => Date.new(2016, 11, 19), :end => Date.new(2017, 2, 8)}
     rangeC = {:start => Date.new(2016, 9, 24), :end => Date.new(2016, 11, 17)}
 
     # Set A: old travis VM builds

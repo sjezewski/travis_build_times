@@ -15,6 +15,7 @@ collect:
 	./collect.rb
 
 analyze:
+	mkdir -p ./tmp
 	./filter.rb builds.json ./tmp
 	./analyze.rb ./tmp/setA.json ./tmp
 	./analyze.rb ./tmp/setA2.json ./tmp
